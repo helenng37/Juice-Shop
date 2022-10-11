@@ -1,9 +1,11 @@
 package model;
 
-public class FruitJuice {
-    public static enum DrinkSize { TALL, GRANDE, VENTI }
+import static model.FruitJuice.DrinkSize.NUL;
 
-    public static enum FruitType { APPLE, ORANGE, GUAVA, JACKFRUIT, PAPAYA, RAMBUTAN, LYCHEE, KIWI, TOMATO, CELERY }
+public abstract class FruitJuice {
+    public static enum DrinkSize { TALL, GRANDE, VENTI, NUL }
+
+    public static enum FruitType { APPLE, ORANGE, GUAVA, LYCHEE, KIWI }
 
     public static final int MAX_VOLUME = 10000;
     public static final double TALL_PRICE = 3.50;
@@ -12,15 +14,14 @@ public class FruitJuice {
     public static final int TALL_VOLUME = 300;
     public static final int GRANDE_VOLUME = 500;
     public static final int VENTI_VOLUME = 700;
-
     private double price;
-    private int totalVolume;
+    private int totalVolume = 0;
     private FruitType type;
     private DrinkSize size;
 
-    public FruitJuice(FruitType type, DrinkSize size) {
+    public FruitJuice(FruitType type) {
         this.type = type;
-        this.size = size;
+        this.size = NUL;
         setPrice(size);
         setTotalVolume(size);
     }
@@ -29,16 +30,20 @@ public class FruitJuice {
         return this.type;
     }
 
+    public void setType(FruitType type) {
+        this.type = type;
+    }
+
+    public void setSize(DrinkSize size) {
+        this.size = size;
+    }
+
     public DrinkSize getSize() {
         return this.size;
     }
 
     public double getPrice() {
         return this.price;
-    }
-
-    public int getTotalVolume() {
-        return this.totalVolume;
     }
 
     public void setPrice(DrinkSize size) {
@@ -55,17 +60,13 @@ public class FruitJuice {
         }
     }
 
-    public void setTotalVolume(DrinkSize size) {
-        switch (size) {
-            case TALL:
-                this.totalVolume += TALL_VOLUME;
-                break;
-            case GRANDE:
-                this.totalVolume += GRANDE_VOLUME;
-                break;
-            case VENTI:
-                this.totalVolume += VENTI_VOLUME;
-                break;
-        }
-    }
+    public abstract int getTotalVolume();
+
+    public abstract void setTotalVolume(DrinkSize size);
+
+    public abstract boolean isOutOfOrder();
+
+    public abstract int remainingVolume();
+
+
 }

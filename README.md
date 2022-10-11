@@ -13,13 +13,12 @@ The price list:
 - A grande-size cup is 500ml: $4.25
 - A venti-size cup is 700ml: $5.75
 
-There are 2 classes (**Order** and **FruitJuice**). In the **FruitJuice** class, there are 10 types of fruit 
+There are 2 classes (**Order** and **FruitJuice**). In the **FruitJuice** class, there are 5 types of fruit 
 and each can make up to 10 liters per day. So after each order, the volume of the ordered fruits will be reduced.
 
 ### Users
 
 - The customer wants to place an order.
-- The manager of this kiosk will want to use the application to track the store's sales.
 
 ### Motivation
 
@@ -32,5 +31,5 @@ can make per day.
 - As a customer, I want to be able to add a drink to my order.
 - As a customer, I want to be able to view the list of drinks in my order.
 - As a customer, I want to be able to view the total bill.
-- As a manager, I want to be able to remove a fruit when it is out of order.
-- As a manager, I want to be able to see the total number of drinks that I sold and the total sales at the end of the day, 
+- As a customer, I want to be able to remove a juice when it is out of order.
+- As a customer, I want to be able to change to another juice when the one I ordered is out of order

@@ -1,24 +1,17 @@
 package ui;
 
-import model.FruitJuice;
-import model.Order;
+import model.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-
 
 public class JuiceShop {
     private Order order;
-    private List<FruitJuice.FruitType> fruitTypeList;
-    private List<FruitJuice.DrinkSize> drinkSizeList;
+    private FruitJuice juice;
     private int numDinks;
 
     public JuiceShop() {
         numDinks = 0;
         order = new Order();
-        fruitTypeList = new ArrayList<>();
-        drinkSizeList = new ArrayList<>();
         runApp();
     }
 
@@ -37,7 +30,6 @@ public class JuiceShop {
         if (keepGoing.toLowerCase().equals("y")) {
             runApp();
         }
-        addDrink(fruitTypeList, drinkSizeList);
         printTotalBill();
         System.out.println("\nThank you. Goodbye!");
     }
@@ -47,6 +39,7 @@ public class JuiceShop {
         Scanner input1 = new Scanner(System.in);
         input1.useDelimiter("\n");
         getFruit(input1.next().toLowerCase());
+        order.getListOfJuice().add(juice);
     }
 
     public void initSizeList() {
@@ -59,41 +52,38 @@ public class JuiceShop {
     @SuppressWarnings("methodlength")
     public void getFruit(String fruit) {
         switch (fruit) {
-            case "a": fruitTypeList.add(FruitJuice.FruitType.APPLE);
-                     break;
-            case "o": fruitTypeList.add(FruitJuice.FruitType.ORANGE);
-                     break;
-            case "g": fruitTypeList.add(FruitJuice.FruitType.GUAVA);
-                     break;
-            case "j": fruitTypeList.add(FruitJuice.FruitType.JACKFRUIT);
-                     break;
-            case "p": fruitTypeList.add(FruitJuice.FruitType.PAPAYA);
-                     break;
-            case "r": fruitTypeList.add(FruitJuice.FruitType.RAMBUTAN);
-                     break;
-            case "l": fruitTypeList.add(FruitJuice.FruitType.LYCHEE);
-                     break;
-            case "k": fruitTypeList.add(FruitJuice.FruitType.KIWI);
-                     break;
-            case "t": fruitTypeList.add(FruitJuice.FruitType.TOMATO);
-                     break;
-            case "c": fruitTypeList.add(FruitJuice.FruitType.CELERY);
-                     break;
-            default: System.out.println("Selection not valid. Please enter again.");
-                     initFruitList();
+            case "a":
+                juice = new AppleJuice();
+                break;
+            case "o":
+                juice = new OrangeJuice();
+                break;
+            case "g":
+                juice = new GuavaJuice();
+                break;
+            case "l":
+                juice = new LycheeJuice();
+                break;
+            case "k":
+                juice = new KiwiJuice();
+                break;
+            default:
+                System.out.println("Selection not valid. Please enter again.");
+                initFruitList();
         }
     }
 
     public void getSize(String size) {
         switch (size) {
-            case "1": drinkSizeList.add(FruitJuice.DrinkSize.TALL);
+            case "1": checkJuiceEnoughForTall();
                       break;
-            case "2": drinkSizeList.add(FruitJuice.DrinkSize.GRANDE);
+            case "2": checkJuiceEnoughForGrande();
                       break;
-            case "3": drinkSizeList.add(FruitJuice.DrinkSize.VENTI);
+            case "3": checkJuiceEnoughForVenti();
                       break;
-            default: System.out.println("Selection not valid. Please enter again.");
-                     initSizeList();
+            default:
+                System.out.println("Selection not valid. Please enter again.");
+                initSizeList();
         }
     }
 
@@ -102,13 +92,8 @@ public class JuiceShop {
         System.out.println("\ta -> apple");
         System.out.println("\to -> orange");
         System.out.println("\tg -> guava");
-        System.out.println("\tj -> jackfruit");
-        System.out.println("\tp -> papaya");
-        System.out.println("\tr -> rambutan");
         System.out.println("\tl -> lychee");
         System.out.println("\tk -> kiwi");
-        System.out.println("\tt -> tomato");
-        System.out.println("\tc -> celery");
         System.out.println("\tYou can enter fruit choice by typing the letter: ");
     }
 
@@ -120,19 +105,73 @@ public class JuiceShop {
         System.out.println("\tYou can enter drink size by typing the number: ");
     }
 
-    public void addDrink(List<FruitJuice.FruitType> fruitList, List<FruitJuice.DrinkSize> sizeList) {
-        for (int i = 0; i < numDinks; i++) {
-            order.getListOfJuice().add(new FruitJuice(fruitList.get(i), sizeList.get(i)));
-        }
-    }
-
     public void printTotalBill() {
+        numDinks = order.getListOfJuice().size();
         System.out.println("Your total drinks are: " + numDinks);
         for (int i = 0; i < numDinks; i++) {
-            System.out.println("Drink " + (i + 1) + ": Fruit: " + fruitTypeList.get(i)
-                    + " - Size: " + drinkSizeList.get(i));
+            System.out.println("Drink " + (i + 1) + ": Fruit: " + order.getListOfJuice().get(i).getType()
+                    + " - Size: " + order.getListOfJuice().get(i).getSize());
         }
         order.setTotalBill(order.getListOfJuice());
         System.out.println("Total: $" + order.getTotalBill());
+    }
+
+    public void checkJuiceEnoughForTall() {
+        if (!juice.isOutOfOrder() && juice.remainingVolume() >= FruitJuice.TALL_VOLUME) {
+            juice.setSize(FruitJuice.DrinkSize.TALL);
+            juice.setPrice(FruitJuice.DrinkSize.TALL);
+            juice.setTotalVolume(FruitJuice.DrinkSize.TALL);
+        } else {
+            removeJuice();
+            System.out.println(juice.getType() + " is out of order.");
+            System.out.println("Do you want to choose another juice?(y/n) ");
+            Scanner input = new Scanner(System.in);
+            String change = input.nextLine();
+            if (change.toLowerCase().equals("y")) {
+                initFruitList();
+            }
+        }
+    }
+
+    public void checkJuiceEnoughForGrande() {
+        if (!juice.isOutOfOrder() && juice.remainingVolume() >= FruitJuice.GRANDE_VOLUME) {
+            juice.setSize(FruitJuice.DrinkSize.GRANDE);
+            juice.setPrice(FruitJuice.DrinkSize.GRANDE);
+            juice.setTotalVolume(FruitJuice.DrinkSize.GRANDE);
+        } else {
+            System.out.println("This size is out of order. ");
+            System.out.println("Do you want to choose TALL size? ");
+            System.out.println("y -> Continue");
+            System.out.println("n -> Remove juice");
+            Scanner input = new Scanner(System.in);
+            String change = input.nextLine();
+            if (change.toLowerCase().equals("y")) {
+                checkJuiceEnoughForTall();
+            }
+            removeJuice();
+        }
+    }
+
+    public void checkJuiceEnoughForVenti() {
+        if (!juice.isOutOfOrder() && juice.remainingVolume() >= FruitJuice.VENTI_VOLUME) {
+            juice.setSize(FruitJuice.DrinkSize.VENTI);
+            juice.setPrice(FruitJuice.DrinkSize.VENTI);
+            juice.setTotalVolume(FruitJuice.DrinkSize.VENTI);
+        } else {
+            System.out.println("This size is out of order. ");
+            System.out.println("Do you want to choose GRANDE size? ");
+            System.out.println("y -> Continue");
+            System.out.println("n -> Remove juice");
+            Scanner input = new Scanner(System.in);
+            String change = input.nextLine();
+            if (change.toLowerCase().equals("y")) {
+                checkJuiceEnoughForGrande();
+            }
+            removeJuice();
+        }
+    }
+
+    public void removeJuice() {
+        order.getListOfJuice().remove(juice);
     }
 }
