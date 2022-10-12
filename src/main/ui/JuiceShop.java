@@ -4,25 +4,34 @@ import model.*;
 
 import java.util.Scanner;
 
+//Simulate a juice shop
 public class JuiceShop {
     private Order order;
     private FruitJuice juice;
     private int numDinks;
 
+    /*
+     * EFFECTS: numDrinks is set to 0, and order is set to new Order
+     * runs the juice shop application
+     */
     public JuiceShop() {
         numDinks = 0;
         order = new Order();
         runApp();
     }
 
+    /*
+     * MODIFIES: this
+     * EFFECTS: processes user inputs
+     */
     public void runApp() {
         System.out.println("Hello, how many drinks would you like to order? ");
         Scanner scanner1 = new Scanner(System.in);
         int num = scanner1.nextInt();
         numDinks += num;
         for (int i = 0; i < num; i++) {
-            initFruitList();
-            initSizeList();
+            initFruitType();
+            initDrinkSize();
         }
         System.out.println("Do you want to order more drinks? (y/n)");
         Scanner scanner2 = new Scanner(System.in);
@@ -34,7 +43,12 @@ public class JuiceShop {
         System.out.println("\nThank you. Goodbye!");
     }
 
-    public void initFruitList() {
+    /*
+     * MODIFIES: this
+     * EFFECTS: initializes fruit type and add that juice to the order,
+     * but the volume of juice is not set (Drink Size is NUL)
+     */
+    public void initFruitType() {
         displayFruitMenu();
         Scanner input1 = new Scanner(System.in);
         input1.useDelimiter("\n");
@@ -42,14 +56,22 @@ public class JuiceShop {
         order.getListOfJuice().add(juice);
     }
 
-    public void initSizeList() {
+    /*
+     * MODIFIES: this
+     * EFFECTS: initializes drink size
+     */
+    public void initDrinkSize() {
         displayDrinkSizeMenu();
         Scanner input2 = new Scanner(System.in);
         input2.useDelimiter("\n");
         getSize(input2.next());
     }
 
-    @SuppressWarnings("methodlength")
+    /*
+     * REQUIRES: a non-empty string fruit
+     * MODIFIES: this
+     * EFFECTS: initializes new fruit
+     */
     public void getFruit(String fruit) {
         switch (fruit) {
             case "a":
@@ -69,10 +91,15 @@ public class JuiceShop {
                 break;
             default:
                 System.out.println("Selection not valid. Please enter again.");
-                initFruitList();
+                initFruitType();
         }
     }
 
+    /*
+     * REQUIRES: a non-empty string size
+     * MODIFIES: this
+     * EFFECTS: set size for juice
+     */
     public void getSize(String size) {
         switch (size) {
             case "1": checkJuiceEnoughForTall();
@@ -83,10 +110,11 @@ public class JuiceShop {
                       break;
             default:
                 System.out.println("Selection not valid. Please enter again.");
-                initSizeList();
+                initDrinkSize();
         }
     }
 
+    // EFFECTS: displays menu of fruit options to user
     public void displayFruitMenu() {
         System.out.println("\nSelect Fruit Type from:");
         System.out.println("\ta -> apple");
@@ -97,6 +125,7 @@ public class JuiceShop {
         System.out.println("\tYou can enter fruit choice by typing the letter: ");
     }
 
+    // EFFECTS: displays menu of drink size options to user
     public void displayDrinkSizeMenu() {
         System.out.println("\nSelect Drink Size from:");
         System.out.println("\t1 -> tall size. Price: $3.50.");
@@ -105,6 +134,7 @@ public class JuiceShop {
         System.out.println("\tYou can enter drink size by typing the number: ");
     }
 
+    // EFFECTS: prints the total bill
     public void printTotalBill() {
         numDinks = order.getListOfJuice().size();
         System.out.println("Your total drinks are: " + numDinks);
@@ -116,6 +146,11 @@ public class JuiceShop {
         System.out.println("Total: $" + order.getTotalBill());
     }
 
+    /* MODIFIES: this
+     * EFFECTS: if juice is not out of order AND juice.remainingVolume() >= FruitJuice.TALL_VOLUME
+     * size of juice is set to TALL, price is set to TALL_PRICE and volume is set to TALL_VOLUME
+     * otherwise, remove the juice and ask for customer's opinion (want to change to another fruit?)
+     */
     public void checkJuiceEnoughForTall() {
         if (!juice.isOutOfOrder() && juice.remainingVolume() >= FruitJuice.TALL_VOLUME) {
             juice.setSize(FruitJuice.DrinkSize.TALL);
@@ -128,11 +163,17 @@ public class JuiceShop {
             Scanner input = new Scanner(System.in);
             String change = input.nextLine();
             if (change.toLowerCase().equals("y")) {
-                initFruitList();
+                initFruitType();
             }
         }
     }
 
+    /* MODIFIES: this
+     * EFFECTS: if juice is not out of order AND juice.remainingVolume() >= FruitJuice.GRANDE_VOLUME
+     * size of juice is set to GRANDE, price is set to GRANDE_PRICE and volume is set to GRANDE_VOLUME
+     * otherwise, ask for customer's opinion (continue or not)
+     * if the customer does not want to order anymore, then remove the juice out of the order
+     */
     public void checkJuiceEnoughForGrande() {
         if (!juice.isOutOfOrder() && juice.remainingVolume() >= FruitJuice.GRANDE_VOLUME) {
             juice.setSize(FruitJuice.DrinkSize.GRANDE);
@@ -152,6 +193,12 @@ public class JuiceShop {
         }
     }
 
+    /* MODIFIES: this
+     * EFFECTS: if juice is not out of order AND juice.remainingVolume() >= FruitJuice.VENTI_VOLUME
+     * size of juice is set to VENTI, price is set to VENTI_PRICE and volume is set to VENTI_VOLUME
+     * otherwise, ask for customer's opinion (continue or not)
+     * if the customer does not want to order anymore, then remove the juice out of the order
+     */
     public void checkJuiceEnoughForVenti() {
         if (!juice.isOutOfOrder() && juice.remainingVolume() >= FruitJuice.VENTI_VOLUME) {
             juice.setSize(FruitJuice.DrinkSize.VENTI);
@@ -171,6 +218,9 @@ public class JuiceShop {
         }
     }
 
+    /* MODIFIES: this
+     * EFFECTS: removes the juice out of the order
+     */
     public void removeJuice() {
         order.getListOfJuice().remove(juice);
     }
