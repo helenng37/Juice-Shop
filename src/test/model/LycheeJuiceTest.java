@@ -37,19 +37,30 @@ class LycheeJuiceTest {
     }
 
     @Test
-    void testSetTotalVolume() {
+    void testSetTotalVolumeForTallInput() {
         LycheeJuice.resetTotalVolume();
         FruitJuice lycheeJuice1 = new LycheeJuice();
         lycheeJuice1.setSize(DrinkSize.TALL);
         lycheeJuice1.setTotalVolume(DrinkSize.TALL);
+        assertEquals(TALL_VOLUME, lycheeJuice1.getTotalVolume());
+    }
+
+    @Test
+    void testSetTotalVolumeForGrandeInput() {
+        LycheeJuice.resetTotalVolume();
         FruitJuice lycheeJuice2 = new LycheeJuice();
         lycheeJuice2.setSize(DrinkSize.GRANDE);
         lycheeJuice2.setTotalVolume(DrinkSize.GRANDE);
+        assertEquals(GRANDE_VOLUME, lycheeJuice2.getTotalVolume());
+    }
+
+    @Test
+    void testSetTotalVolumeForVentiInput() {
+        LycheeJuice.resetTotalVolume();
         FruitJuice lycheeJuice3 = new LycheeJuice();
         lycheeJuice3.setSize(DrinkSize.VENTI);
         lycheeJuice3.setTotalVolume(DrinkSize.VENTI);
-        int expectedTotalVolume = TALL_VOLUME + GRANDE_VOLUME + VENTI_VOLUME;
-        assertEquals(expectedTotalVolume, lycheeJuice3.getTotalVolume());
+        assertEquals(VENTI_VOLUME, lycheeJuice3.getTotalVolume());
     }
 
     @Test
@@ -109,17 +120,27 @@ class LycheeJuiceTest {
     }
 
     @Test
-    void testSetPrice() {
+    void testSetPriceForTallSize() {
         LycheeJuice.resetTotalVolume();
         FruitJuice lycheeJuice1 = new LycheeJuice();
         lycheeJuice1.setPrice(DrinkSize.TALL);
+        assertEquals(TALL_PRICE, lycheeJuice1.getPrice());
+    }
+
+    @Test
+    void testSetPriceForGrandeSize() {
+        LycheeJuice.resetTotalVolume();
         FruitJuice lycheeJuice2 = new LycheeJuice();
         lycheeJuice2.setPrice(DrinkSize.GRANDE);
+        assertEquals(GRANDE_PRICE, lycheeJuice2.getPrice());
+    }
+
+    @Test
+    void testSetPriceForVentiSize() {
+        LycheeJuice.resetTotalVolume();
         FruitJuice lycheeJuice3 = new LycheeJuice();
         lycheeJuice3.setPrice(DrinkSize.VENTI);
-        double expectedTotalPrice = TALL_PRICE + GRANDE_PRICE + VENTI_PRICE;
-        double actualTotalPrice = lycheeJuice1.getPrice() + lycheeJuice2.getPrice() + lycheeJuice3.getPrice();
-        assertEquals(expectedTotalPrice, actualTotalPrice);;
+        assertEquals(VENTI_PRICE, lycheeJuice3.getPrice());
     }
 
     @Test

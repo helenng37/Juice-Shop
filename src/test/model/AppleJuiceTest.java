@@ -37,19 +37,30 @@ class AppleJuiceTest {
     }
 
     @Test
-    void testSetTotalVolume() {
+    void testSetTotalVolumeForTallInput() {
         AppleJuice.resetTotalVolume();
         FruitJuice appleJuice1 = new AppleJuice();
         appleJuice1.setSize(DrinkSize.TALL);
         appleJuice1.setTotalVolume(DrinkSize.TALL);
+        assertEquals(TALL_VOLUME, appleJuice1.getTotalVolume());
+    }
+
+    @Test
+    void testSetTotalVolumeForGrandeInput() {
+        AppleJuice.resetTotalVolume();
         FruitJuice appleJuice2 = new AppleJuice();
         appleJuice2.setSize(DrinkSize.GRANDE);
         appleJuice2.setTotalVolume(DrinkSize.GRANDE);
+        assertEquals(GRANDE_VOLUME, appleJuice2.getTotalVolume());
+    }
+
+    @Test
+    void testSetTotalVolumeForVentiInput() {
+        AppleJuice.resetTotalVolume();
         FruitJuice appleJuice3 = new AppleJuice();
         appleJuice3.setSize(DrinkSize.VENTI);
         appleJuice3.setTotalVolume(DrinkSize.VENTI);
-        int expectedTotalVolume = TALL_VOLUME + GRANDE_VOLUME + VENTI_VOLUME;
-        assertEquals(expectedTotalVolume, appleJuice3.getTotalVolume());
+        assertEquals(VENTI_VOLUME, appleJuice3.getTotalVolume());
     }
 
     @Test
@@ -115,17 +126,27 @@ class AppleJuiceTest {
     }
 
     @Test
-    void testSetPrice() {
+    void testSetPriceForTallInput() {
         AppleJuice.resetTotalVolume();
         FruitJuice appleJuice1 = new AppleJuice();
         appleJuice1.setPrice(DrinkSize.TALL);
+        assertEquals(TALL_PRICE, appleJuice1.getPrice());
+    }
+
+    @Test
+    void testSetPriceForGrandeInput() {
+        AppleJuice.resetTotalVolume();
         FruitJuice appleJuice2 = new AppleJuice();
         appleJuice2.setPrice(DrinkSize.GRANDE);
+        assertEquals(GRANDE_PRICE, appleJuice2.getPrice());
+    }
+
+    @Test
+    void testSetPriceForVentiInput() {
+        AppleJuice.resetTotalVolume();
         FruitJuice appleJuice3 = new AppleJuice();
         appleJuice3.setPrice(DrinkSize.VENTI);
-        double expectedTotalPrice = TALL_PRICE + GRANDE_PRICE + VENTI_PRICE;
-        double actualTotalPrice = appleJuice1.getPrice() + appleJuice2.getPrice() + appleJuice3.getPrice();
-        assertEquals(expectedTotalPrice, actualTotalPrice);
+        assertEquals(VENTI_PRICE, appleJuice3.getPrice());
     }
 
     @Test
