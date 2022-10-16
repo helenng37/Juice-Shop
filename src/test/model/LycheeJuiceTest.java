@@ -96,21 +96,21 @@ class LycheeJuiceTest {
     void testSetPriceForTallSize() {
         FruitJuice initialLycheeJuice = new LycheeJuice();
         initialLycheeJuice.setPrice(DrinkSize.TALL);
-        assertEquals(3.50, initialLycheeJuice.getPrice());
+        assertEquals(TALL_PRICE, initialLycheeJuice.getPrice());
     }
 
     @Test
     void testSetPriceForGrandeSize() {
         FruitJuice initialLycheeJuice = new LycheeJuice();
         initialLycheeJuice.setPrice(DrinkSize.GRANDE);
-        assertEquals(4.25, initialLycheeJuice.getPrice());
+        assertEquals(GRANDE_PRICE, initialLycheeJuice.getPrice());
     }
 
     @Test
     void testSetPriceForVentiSize() {
         FruitJuice initialLycheeJuice = new LycheeJuice();
         initialLycheeJuice.setPrice(DrinkSize.VENTI);
-        assertEquals(5.75, initialLycheeJuice.getPrice());
+        assertEquals(VENTI_PRICE, initialLycheeJuice.getPrice());
     }
 
     @Test
@@ -118,7 +118,7 @@ class LycheeJuiceTest {
         FruitJuice lycheeJuice1 = new LycheeJuice(FruitJuice.DrinkSize.TALL);
         FruitJuice lycheeJuice2 = new LycheeJuice(FruitJuice.DrinkSize.GRANDE);
         FruitJuice lycheeJuice3 = new LycheeJuice();
-        assertTrue(lycheeJuice3.validateDrink(DrinkSize.VENTI));
+        assertTrue(lycheeJuice3.validateDrink(DrinkSize.TALL));
     }
 
     @Test

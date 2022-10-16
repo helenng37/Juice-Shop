@@ -96,21 +96,21 @@ class KiwiJuiceTest {
     void testSetPriceForTallSize() {
         FruitJuice initialKiwiJuice = new KiwiJuice();
         initialKiwiJuice.setPrice(DrinkSize.TALL);
-        assertEquals(3.50, initialKiwiJuice.getPrice());
+        assertEquals(TALL_PRICE, initialKiwiJuice.getPrice());
     }
 
     @Test
     void testSetPriceForGrandeSize() {
         FruitJuice initialKiwiJuice = new KiwiJuice();
         initialKiwiJuice.setPrice(DrinkSize.GRANDE);
-        assertEquals(4.25, initialKiwiJuice.getPrice());
+        assertEquals(GRANDE_PRICE, initialKiwiJuice.getPrice());
     }
 
     @Test
     void testSetPriceForVentiSize() {
         FruitJuice initialKiwiJuice = new KiwiJuice();
         initialKiwiJuice.setPrice(DrinkSize.VENTI);
-        assertEquals(5.75, initialKiwiJuice.getPrice());
+        assertEquals(VENTI_PRICE, initialKiwiJuice.getPrice());
     }
 
     @Test
@@ -118,7 +118,7 @@ class KiwiJuiceTest {
         FruitJuice kiwiJuice1 = new KiwiJuice(FruitJuice.DrinkSize.TALL);
         FruitJuice kiwiJuice2 = new KiwiJuice(FruitJuice.DrinkSize.GRANDE);
         FruitJuice kiwiJuice3 = new KiwiJuice();
-        assertTrue(kiwiJuice3.validateDrink(DrinkSize.VENTI));
+        assertTrue(kiwiJuice3.validateDrink(DrinkSize.TALL));
     }
 
     @Test

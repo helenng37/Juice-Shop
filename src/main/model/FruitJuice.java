@@ -92,7 +92,7 @@ public abstract class FruitJuice {
      * EFFECTS: if there is a drink that is not available, then remove that drink out of the list
      */
     public boolean validateDrink(DrinkSize size) {
-        if (!isOutOfOrder() && remainingVolume() >= convertFromSizeToVolume(size)) {
+        if (remainingVolume() >= convertFromSizeToVolume(size)) {
             setSize(size);
             setPrice(size);
             setTotalVolume(size);

@@ -97,21 +97,21 @@ class GuavaJuiceTest {
     void testSetPriceForTallSize() {
         FruitJuice initialGuavaJuice = new GuavaJuice();
         initialGuavaJuice.setPrice(DrinkSize.TALL);
-        assertEquals(3.50, initialGuavaJuice.getPrice());
+        assertEquals(TALL_PRICE, initialGuavaJuice.getPrice());
     }
 
     @Test
     void testSetPriceForGrandeSize() {
         FruitJuice initialGuavaJuice = new GuavaJuice();
         initialGuavaJuice.setPrice(DrinkSize.GRANDE);
-        assertEquals(4.25, initialGuavaJuice.getPrice());
+        assertEquals(GRANDE_PRICE, initialGuavaJuice.getPrice());
     }
 
     @Test
     void testSetPriceForVentiSize() {
         FruitJuice initialGuavaJuice = new GuavaJuice();
         initialGuavaJuice.setPrice(DrinkSize.VENTI);
-        assertEquals(5.75, initialGuavaJuice.getPrice());
+        assertEquals(VENTI_PRICE, initialGuavaJuice.getPrice());
     }
 
     @Test
@@ -119,7 +119,7 @@ class GuavaJuiceTest {
         FruitJuice guavaJuice1 = new GuavaJuice(FruitJuice.DrinkSize.TALL);
         FruitJuice guavaJuice2 = new GuavaJuice(FruitJuice.DrinkSize.GRANDE);
         FruitJuice guavaJuice3 = new GuavaJuice();
-        assertTrue(guavaJuice3.validateDrink(DrinkSize.VENTI));
+        assertTrue(guavaJuice3.validateDrink(DrinkSize.TALL));
     }
 
     @Test
