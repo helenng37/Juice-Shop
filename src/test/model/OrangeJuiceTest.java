@@ -37,6 +37,22 @@ class OrangeJuiceTest {
     }
 
     @Test
+    void testSetTotalVolume() {
+        OrangeJuice.resetTotalVolume();
+        FruitJuice orangeJuice1 = new OrangeJuice();
+        orangeJuice1.setSize(DrinkSize.TALL);
+        orangeJuice1.setTotalVolume(DrinkSize.TALL);
+        FruitJuice orangeJuice2 = new OrangeJuice();
+        orangeJuice2.setSize(DrinkSize.GRANDE);
+        orangeJuice2.setTotalVolume(DrinkSize.GRANDE);
+        FruitJuice orangeJuice3 = new OrangeJuice();
+        orangeJuice3.setSize(DrinkSize.VENTI);
+        orangeJuice3.setTotalVolume(DrinkSize.VENTI);
+        int expectedTotalVolume = TALL_VOLUME + GRANDE_VOLUME + VENTI_VOLUME;
+        assertEquals(expectedTotalVolume, orangeJuice3.getTotalVolume());
+    }
+
+    @Test
     void testIsOutOfOrder() {
         FruitJuice orangeJuice1 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice orangeJuice2 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
@@ -93,24 +109,17 @@ class OrangeJuiceTest {
     }
 
     @Test
-    void testSetPriceForTallSize() {
-        FruitJuice initialOrangeJuice = new OrangeJuice();
-        initialOrangeJuice.setPrice(DrinkSize.TALL);
-        assertEquals(TALL_PRICE, initialOrangeJuice.getPrice());
-    }
-
-    @Test
-    void testSetPriceForGrandeSize() {
-        FruitJuice initialOrangeJuice = new OrangeJuice();
-        initialOrangeJuice.setPrice(DrinkSize.GRANDE);
-        assertEquals(GRANDE_PRICE, initialOrangeJuice.getPrice());
-    }
-
-    @Test
-    void testSetPriceForVentiSize() {
-        FruitJuice initialOrangeJuice = new OrangeJuice();
-        initialOrangeJuice.setPrice(DrinkSize.VENTI);
-        assertEquals(VENTI_PRICE, initialOrangeJuice.getPrice());
+    void testSetPrice() {
+        OrangeJuice.resetTotalVolume();
+        FruitJuice orangeJuice1 = new OrangeJuice();
+        orangeJuice1.setPrice(DrinkSize.TALL);
+        FruitJuice orangeJuice2 = new OrangeJuice();
+        orangeJuice2.setPrice(DrinkSize.GRANDE);
+        FruitJuice orangeJuice3 = new OrangeJuice();
+        orangeJuice3.setPrice(DrinkSize.VENTI);
+        double expectedTotalPrice = TALL_PRICE + GRANDE_PRICE + VENTI_PRICE;
+        double actualTotalPrice = orangeJuice1.getPrice() + orangeJuice2.getPrice() + orangeJuice3.getPrice();
+        assertEquals(expectedTotalPrice, actualTotalPrice);
     }
 
     @Test

@@ -37,6 +37,22 @@ class KiwiJuiceTest {
     }
 
     @Test
+    void testSetTotalVolume() {
+        KiwiJuice.resetTotalVolume();
+        FruitJuice kiwiJuice1 = new KiwiJuice();
+        kiwiJuice1.setSize(DrinkSize.TALL);
+        kiwiJuice1.setTotalVolume(DrinkSize.TALL);
+        FruitJuice kiwiJuice2 = new KiwiJuice();
+        kiwiJuice2.setSize(DrinkSize.GRANDE);
+        kiwiJuice2.setTotalVolume(DrinkSize.GRANDE);
+        FruitJuice kiwiJuice3 = new KiwiJuice();
+        kiwiJuice3.setSize(DrinkSize.VENTI);
+        kiwiJuice3.setTotalVolume(DrinkSize.VENTI);
+        int expectedTotalVolume = TALL_VOLUME + GRANDE_VOLUME + VENTI_VOLUME;
+        assertEquals(expectedTotalVolume, kiwiJuice3.getTotalVolume());
+    }
+
+    @Test
     void testIsOutOfOrder() {
         FruitJuice kiwiJuice1 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice kiwiJuice2 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
@@ -93,24 +109,17 @@ class KiwiJuiceTest {
     }
 
     @Test
-    void testSetPriceForTallSize() {
-        FruitJuice initialKiwiJuice = new KiwiJuice();
-        initialKiwiJuice.setPrice(DrinkSize.TALL);
-        assertEquals(TALL_PRICE, initialKiwiJuice.getPrice());
-    }
-
-    @Test
-    void testSetPriceForGrandeSize() {
-        FruitJuice initialKiwiJuice = new KiwiJuice();
-        initialKiwiJuice.setPrice(DrinkSize.GRANDE);
-        assertEquals(GRANDE_PRICE, initialKiwiJuice.getPrice());
-    }
-
-    @Test
-    void testSetPriceForVentiSize() {
-        FruitJuice initialKiwiJuice = new KiwiJuice();
-        initialKiwiJuice.setPrice(DrinkSize.VENTI);
-        assertEquals(VENTI_PRICE, initialKiwiJuice.getPrice());
+    void testSetPrice() {
+        KiwiJuice.resetTotalVolume();
+        FruitJuice kiwiJuice1 = new KiwiJuice();
+        kiwiJuice1.setPrice(DrinkSize.TALL);
+        FruitJuice kiwiJuice2 = new KiwiJuice();
+        kiwiJuice2.setPrice(DrinkSize.GRANDE);
+        FruitJuice kiwiJuice3 = new KiwiJuice();
+        kiwiJuice3.setPrice(DrinkSize.VENTI);
+        double expectedTotalPrice = TALL_PRICE + GRANDE_PRICE + VENTI_PRICE;
+        double actualTotalPrice = kiwiJuice1.getPrice() + kiwiJuice2.getPrice() + kiwiJuice3.getPrice();
+        assertEquals(expectedTotalPrice, actualTotalPrice);
     }
 
     @Test

@@ -38,6 +38,23 @@ class GuavaJuiceTest {
     }
 
     @Test
+    void testSetTotalVolume() {
+        GuavaJuice.resetTotalVolume();
+        FruitJuice guavaJuice1 = new GuavaJuice();
+        guavaJuice1.setSize(DrinkSize.TALL);
+        guavaJuice1.setTotalVolume(DrinkSize.TALL);
+        FruitJuice guavaJuice2 = new GuavaJuice();
+        guavaJuice2.setSize(DrinkSize.GRANDE);
+        guavaJuice2.setTotalVolume(DrinkSize.GRANDE);
+        FruitJuice guavaJuice3 = new GuavaJuice();
+        guavaJuice3.setSize(DrinkSize.VENTI);
+        guavaJuice3.setTotalVolume(DrinkSize.VENTI);
+        int expectedTotalVolume = TALL_VOLUME + GRANDE_VOLUME + VENTI_VOLUME;
+        assertEquals(expectedTotalVolume, guavaJuice3.getTotalVolume());
+    }
+
+
+    @Test
     void testIsOutOfOrder() {
         FruitJuice guavaJuice1 = new GuavaJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice guavaJuice2 = new GuavaJuice(FruitJuice.DrinkSize.VENTI);
@@ -94,24 +111,17 @@ class GuavaJuiceTest {
     }
 
     @Test
-    void testSetPriceForTallSize() {
-        FruitJuice initialGuavaJuice = new GuavaJuice();
-        initialGuavaJuice.setPrice(DrinkSize.TALL);
-        assertEquals(TALL_PRICE, initialGuavaJuice.getPrice());
-    }
-
-    @Test
-    void testSetPriceForGrandeSize() {
-        FruitJuice initialGuavaJuice = new GuavaJuice();
-        initialGuavaJuice.setPrice(DrinkSize.GRANDE);
-        assertEquals(GRANDE_PRICE, initialGuavaJuice.getPrice());
-    }
-
-    @Test
-    void testSetPriceForVentiSize() {
-        FruitJuice initialGuavaJuice = new GuavaJuice();
-        initialGuavaJuice.setPrice(DrinkSize.VENTI);
-        assertEquals(VENTI_PRICE, initialGuavaJuice.getPrice());
+    void testSetPrice() {
+        GuavaJuice.resetTotalVolume();
+        FruitJuice guavaJuice1 = new GuavaJuice();
+        guavaJuice1.setPrice(DrinkSize.TALL);
+        FruitJuice guavaJuice2 = new GuavaJuice();
+        guavaJuice2.setPrice(DrinkSize.GRANDE);
+        FruitJuice guavaJuice3 = new GuavaJuice();
+        guavaJuice3.setPrice(DrinkSize.VENTI);
+        double expectedTotalPrice = TALL_PRICE + GRANDE_PRICE + VENTI_PRICE;
+        double actualTotalPrice = guavaJuice1.getPrice() + guavaJuice2.getPrice() + guavaJuice3.getPrice();
+        assertEquals(expectedTotalPrice, actualTotalPrice);
     }
 
     @Test
