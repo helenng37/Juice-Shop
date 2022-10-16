@@ -45,7 +45,6 @@ class LycheeJuiceTest {
         FruitJuice lycheeJuice5 = new LycheeJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice lycheeJuice6 = new LycheeJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice lycheeJuice7 = new LycheeJuice(FruitJuice.DrinkSize.VENTI);
-        System.out.println(lycheeJuice.remainingVolume());
         assertTrue(lycheeJuice.isOutOfOrder());
     }
 
@@ -91,5 +90,47 @@ class LycheeJuiceTest {
         lycheeJuice.subtractTotalVolume(lycheeJuice.convertFromSizeToVolume(DrinkSize.VENTI));
         int expectedTotalVolume = TALL_VOLUME + TALL_VOLUME + GRANDE_VOLUME;
         assertEquals(expectedTotalVolume, lycheeJuice.getTotalVolume());
+    }
+
+    @Test
+    void testSetPriceForTallSize() {
+        FruitJuice initialLycheeJuice = new LycheeJuice();
+        initialLycheeJuice.setPrice(DrinkSize.TALL);
+        assertEquals(3.50, initialLycheeJuice.getPrice());
+    }
+
+    @Test
+    void testSetPriceForGrandeSize() {
+        FruitJuice initialLycheeJuice = new LycheeJuice();
+        initialLycheeJuice.setPrice(DrinkSize.GRANDE);
+        assertEquals(4.25, initialLycheeJuice.getPrice());
+    }
+
+    @Test
+    void testSetPriceForVentiSize() {
+        FruitJuice initialLycheeJuice = new LycheeJuice();
+        initialLycheeJuice.setPrice(DrinkSize.VENTI);
+        assertEquals(5.75, initialLycheeJuice.getPrice());
+    }
+
+    @Test
+    void testValidateDrinkEnoughForTall() {
+        FruitJuice lycheeJuice1 = new LycheeJuice(FruitJuice.DrinkSize.TALL);
+        FruitJuice lycheeJuice2 = new LycheeJuice(FruitJuice.DrinkSize.GRANDE);
+        FruitJuice lycheeJuice3 = new LycheeJuice();
+        assertTrue(lycheeJuice3.validateDrink(DrinkSize.VENTI));
+    }
+
+    @Test
+    void testValidateDrinkNotEnoughForTall() {
+        FruitJuice lycheeJuice1 = new LycheeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice lycheeJuice2 = new LycheeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice lycheeJuice3 = new LycheeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice lycheeJuice4 = new LycheeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice lycheeJuice5 = new LycheeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice lycheeJuice6 = new LycheeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice lycheeJuice7 = new LycheeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice lycheeJuice8 = new LycheeJuice();
+        assertFalse(lycheeJuice8.validateDrink(DrinkSize.TALL));
     }
 }

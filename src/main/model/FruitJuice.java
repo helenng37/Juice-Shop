@@ -87,6 +87,20 @@ public abstract class FruitJuice {
         return 0;
     }
 
+    /*
+     * MODIFIES: this
+     * EFFECTS: if there is a drink that is not available, then remove that drink out of the list
+     */
+    public boolean validateDrink(DrinkSize size) {
+        if (!isOutOfOrder() && remainingVolume() >= convertFromSizeToVolume(size)) {
+            setSize(size);
+            setPrice(size);
+            setTotalVolume(size);
+            return true;
+        }
+        return false;
+    }
+
     //abstract class, which is implemented in subclasses
     public abstract int getTotalVolume();
 
@@ -105,6 +119,4 @@ public abstract class FruitJuice {
      * EFFECTS: return an integer that is the remaining volume of the juice after every order
      */
     public abstract int remainingVolume();
-
-
 }

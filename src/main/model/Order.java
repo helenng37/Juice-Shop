@@ -53,23 +53,3 @@ public class Order {
 }
 
 
-    /*
-     * MODIFIES: this
-     * EFFECTS: if there is a drink that is not available, then remove that drink out of the list
-     */
-//    public void checkAvailabilityAndRemoveDrink() {
-//        List<FruitJuice> removedJuiceList = new ArrayList<>();
-//        List<FruitJuice> newJuiceList = new ArrayList<>();
-//        for (FruitJuice f: listOfJuice) {
-//            if (MAX_VOLUME - f.getTotalVolume() < TALL_VOLUME) {
-//                removedJuiceList.add(f);
-//            }
-//        }
-//        for (int i = 0; i < listOfJuice.size(); i++) {
-//            if (!(listOfJuice.get(i).equals(removedJuiceList.get(i)))) {
-//                newJuiceList.add(listOfJuice.get(i));
-//            }
-//        }
-//        listOfJuice = newJuiceList;
-//    }
-//}

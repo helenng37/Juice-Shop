@@ -97,4 +97,46 @@ class AppleJuiceTest {
         int expectedTotalVolume = TALL_VOLUME + TALL_VOLUME + GRANDE_VOLUME;
         assertEquals(expectedTotalVolume, appleJuice3.getTotalVolume());
     }
+
+    @Test
+    void testSetPriceForTallSize() {
+        FruitJuice initialAppleJuice = new AppleJuice();
+        initialAppleJuice.setPrice(DrinkSize.TALL);
+        assertEquals(3.50, initialAppleJuice.getPrice());
+    }
+
+    @Test
+    void testSetPriceForGrandeSize() {
+        FruitJuice initialAppleJuice = new AppleJuice();
+        initialAppleJuice.setPrice(DrinkSize.GRANDE);
+        assertEquals(4.25, initialAppleJuice.getPrice());
+    }
+
+    @Test
+    void testSetPriceForVentiSize() {
+        FruitJuice initialAppleJuice = new AppleJuice();
+        initialAppleJuice.setPrice(DrinkSize.VENTI);
+        assertEquals(5.75, initialAppleJuice.getPrice());
+    }
+
+    @Test
+    void testValidateDrinkEnoughForTall() {
+        FruitJuice appleJuice1 = new AppleJuice(FruitJuice.DrinkSize.TALL);
+        FruitJuice appleJuice2 = new AppleJuice(FruitJuice.DrinkSize.GRANDE);
+        FruitJuice appleJuice3 = new AppleJuice();
+        assertTrue(appleJuice3.validateDrink(DrinkSize.VENTI));
+    }
+
+    @Test
+    void testValidateDrinkNotEnoughForTall() {
+        FruitJuice appleJuice1 = new AppleJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice appleJuice2 = new AppleJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice appleJuice3 = new AppleJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice appleJuice4 = new AppleJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice appleJuice5 = new AppleJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice appleJuice6 = new AppleJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice appleJuice7 = new AppleJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice appleJuice8 = new AppleJuice();
+        assertFalse(appleJuice8.validateDrink(DrinkSize.TALL));
+    }
 }

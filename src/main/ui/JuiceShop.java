@@ -152,11 +152,7 @@ public class JuiceShop {
      * otherwise, remove the juice and ask for customer's opinion (want to change to another fruit?)
      */
     public void checkJuiceEnoughForTall() {
-        if (!juice.isOutOfOrder() && juice.remainingVolume() >= FruitJuice.TALL_VOLUME) {
-            juice.setSize(FruitJuice.DrinkSize.TALL);
-            juice.setPrice(FruitJuice.DrinkSize.TALL);
-            juice.setTotalVolume(FruitJuice.DrinkSize.TALL);
-        } else {
+        if (!juice.validateDrink(FruitJuice.DrinkSize.TALL)) {
             removeJuice();
             System.out.println(juice.getType() + " is out of order.");
             System.out.println("Do you want to choose another juice?(y/n) ");
@@ -175,11 +171,7 @@ public class JuiceShop {
      * if the customer does not want to order anymore, then remove the juice out of the order
      */
     public void checkJuiceEnoughForGrande() {
-        if (!juice.isOutOfOrder() && juice.remainingVolume() >= FruitJuice.GRANDE_VOLUME) {
-            juice.setSize(FruitJuice.DrinkSize.GRANDE);
-            juice.setPrice(FruitJuice.DrinkSize.GRANDE);
-            juice.setTotalVolume(FruitJuice.DrinkSize.GRANDE);
-        } else {
+        if (!juice.validateDrink(FruitJuice.DrinkSize.GRANDE)) {
             System.out.println("This size is out of order. ");
             System.out.println("Do you want to choose TALL size? ");
             System.out.println("y -> Continue");
@@ -200,11 +192,7 @@ public class JuiceShop {
      * if the customer does not want to order anymore, then remove the juice out of the order
      */
     public void checkJuiceEnoughForVenti() {
-        if (!juice.isOutOfOrder() && juice.remainingVolume() >= FruitJuice.VENTI_VOLUME) {
-            juice.setSize(FruitJuice.DrinkSize.VENTI);
-            juice.setPrice(FruitJuice.DrinkSize.VENTI);
-            juice.setTotalVolume(FruitJuice.DrinkSize.VENTI);
-        } else {
+        if (!juice.validateDrink(FruitJuice.DrinkSize.VENTI)) {
             System.out.println("This size is out of order. ");
             System.out.println("Do you want to choose GRANDE size? ");
             System.out.println("y -> Continue");

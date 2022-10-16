@@ -45,7 +45,6 @@ class KiwiJuiceTest {
         FruitJuice kiwiJuice5 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice kiwiJuice6 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice kiwiJuice7 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
-        System.out.println(kiwiJuice.remainingVolume());
         assertTrue(kiwiJuice.isOutOfOrder());
     }
 
@@ -91,5 +90,47 @@ class KiwiJuiceTest {
         kiwiJuice.subtractTotalVolume(kiwiJuice.convertFromSizeToVolume(DrinkSize.VENTI));
         int expectedTotalVolume = TALL_VOLUME + TALL_VOLUME + GRANDE_VOLUME;
         assertEquals(expectedTotalVolume, kiwiJuice.getTotalVolume());
+    }
+
+    @Test
+    void testSetPriceForTallSize() {
+        FruitJuice initialKiwiJuice = new KiwiJuice();
+        initialKiwiJuice.setPrice(DrinkSize.TALL);
+        assertEquals(3.50, initialKiwiJuice.getPrice());
+    }
+
+    @Test
+    void testSetPriceForGrandeSize() {
+        FruitJuice initialKiwiJuice = new KiwiJuice();
+        initialKiwiJuice.setPrice(DrinkSize.GRANDE);
+        assertEquals(4.25, initialKiwiJuice.getPrice());
+    }
+
+    @Test
+    void testSetPriceForVentiSize() {
+        FruitJuice initialKiwiJuice = new KiwiJuice();
+        initialKiwiJuice.setPrice(DrinkSize.VENTI);
+        assertEquals(5.75, initialKiwiJuice.getPrice());
+    }
+
+    @Test
+    void testValidateDrinkEnoughForTall() {
+        FruitJuice kiwiJuice1 = new KiwiJuice(FruitJuice.DrinkSize.TALL);
+        FruitJuice kiwiJuice2 = new KiwiJuice(FruitJuice.DrinkSize.GRANDE);
+        FruitJuice kiwiJuice3 = new KiwiJuice();
+        assertTrue(kiwiJuice3.validateDrink(DrinkSize.VENTI));
+    }
+
+    @Test
+    void testValidateDrinkNotEnoughForTall() {
+        FruitJuice kiwiJuice1 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice kiwiJuice2 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice kiwiJuice3 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice kiwiJuice4 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice kiwiJuice5 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice kiwiJuice6 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice kiwiJuice7 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice kiwiJuice8 = new KiwiJuice();
+        assertFalse(kiwiJuice8.validateDrink(DrinkSize.TALL));
     }
 }

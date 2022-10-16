@@ -45,7 +45,6 @@ class OrangeJuiceTest {
         FruitJuice orangeJuice5 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice orangeJuice6 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice orangeJuice7 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
-        System.out.println(orangeJuice.remainingVolume());
         assertTrue(orangeJuice.isOutOfOrder());
     }
 
@@ -91,5 +90,47 @@ class OrangeJuiceTest {
         orangeJuice.subtractTotalVolume(orangeJuice.convertFromSizeToVolume(DrinkSize.VENTI));
         int expectedTotalVolume = TALL_VOLUME + TALL_VOLUME + GRANDE_VOLUME;
         assertEquals(expectedTotalVolume, orangeJuice.getTotalVolume());
+    }
+
+    @Test
+    void testSetPriceForTallSize() {
+        FruitJuice initialOrangeJuice = new OrangeJuice();
+        initialOrangeJuice.setPrice(DrinkSize.TALL);
+        assertEquals(3.50, initialOrangeJuice.getPrice());
+    }
+
+    @Test
+    void testSetPriceForGrandeSize() {
+        FruitJuice initialOrangeJuice = new OrangeJuice();
+        initialOrangeJuice.setPrice(DrinkSize.GRANDE);
+        assertEquals(4.25, initialOrangeJuice.getPrice());
+    }
+
+    @Test
+    void testSetPriceForVentiSize() {
+        FruitJuice initialOrangeJuice = new OrangeJuice();
+        initialOrangeJuice.setPrice(DrinkSize.VENTI);
+        assertEquals(5.75, initialOrangeJuice.getPrice());
+    }
+
+    @Test
+    void testValidateDrinkEnoughForTall() {
+        FruitJuice orangeJuice1 = new OrangeJuice(FruitJuice.DrinkSize.TALL);
+        FruitJuice orangeJuice2 = new OrangeJuice(FruitJuice.DrinkSize.GRANDE);
+        FruitJuice orangeJuice3 = new OrangeJuice();
+        assertTrue(orangeJuice3.validateDrink(DrinkSize.VENTI));
+    }
+
+    @Test
+    void testValidateDrinkNotEnoughForTall() {
+        FruitJuice orangeJuice1 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice orangeJuice2 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice orangeJuice3 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice orangeJuice4 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice orangeJuice5 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice orangeJuice6 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice orangeJuice7 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice orangeJuice8 = new OrangeJuice();
+        assertFalse(orangeJuice8.validateDrink(DrinkSize.TALL));
     }
 }

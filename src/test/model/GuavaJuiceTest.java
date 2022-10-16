@@ -46,7 +46,6 @@ class GuavaJuiceTest {
         FruitJuice guavaJuice5 = new GuavaJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice guavaJuice6 = new GuavaJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice guavaJuice7 = new GuavaJuice(FruitJuice.DrinkSize.VENTI);
-        System.out.println(guavaJuice.remainingVolume());
         assertTrue(guavaJuice.isOutOfOrder());
     }
 
@@ -92,6 +91,48 @@ class GuavaJuiceTest {
         guavaJuice.subtractTotalVolume(guavaJuice.convertFromSizeToVolume(DrinkSize.VENTI));
         int expectedTotalVolume = TALL_VOLUME + TALL_VOLUME + GRANDE_VOLUME;
         assertEquals(expectedTotalVolume, guavaJuice.getTotalVolume());
+    }
+
+    @Test
+    void testSetPriceForTallSize() {
+        FruitJuice initialGuavaJuice = new GuavaJuice();
+        initialGuavaJuice.setPrice(DrinkSize.TALL);
+        assertEquals(3.50, initialGuavaJuice.getPrice());
+    }
+
+    @Test
+    void testSetPriceForGrandeSize() {
+        FruitJuice initialGuavaJuice = new GuavaJuice();
+        initialGuavaJuice.setPrice(DrinkSize.GRANDE);
+        assertEquals(4.25, initialGuavaJuice.getPrice());
+    }
+
+    @Test
+    void testSetPriceForVentiSize() {
+        FruitJuice initialGuavaJuice = new GuavaJuice();
+        initialGuavaJuice.setPrice(DrinkSize.VENTI);
+        assertEquals(5.75, initialGuavaJuice.getPrice());
+    }
+
+    @Test
+    void testValidateDrinkEnoughForTall() {
+        FruitJuice guavaJuice1 = new GuavaJuice(FruitJuice.DrinkSize.TALL);
+        FruitJuice guavaJuice2 = new GuavaJuice(FruitJuice.DrinkSize.GRANDE);
+        FruitJuice guavaJuice3 = new GuavaJuice();
+        assertTrue(guavaJuice3.validateDrink(DrinkSize.VENTI));
+    }
+
+    @Test
+    void testValidateDrinkNotEnoughForTall() {
+        FruitJuice guavaJuice1 = new GuavaJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice guavaJuice2 = new GuavaJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice guavaJuice3 = new GuavaJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice guavaJuice4 = new GuavaJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice guavaJuice5 = new GuavaJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice guavaJuice6 = new GuavaJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice guavaJuice7 = new GuavaJuice(FruitJuice.DrinkSize.VENTI);
+        FruitJuice guavaJuice8 = new GuavaJuice();
+        assertFalse(guavaJuice8.validateDrink(DrinkSize.TALL));
     }
 }
 
