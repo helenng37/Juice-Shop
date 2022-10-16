@@ -64,6 +64,14 @@ class LycheeJuiceTest {
     }
 
     @Test
+    void testSetTotalVolumeForDefaultInput() {
+        LycheeJuice.resetTotalVolume();
+        FruitJuice lycheeJuice1 = new LycheeJuice();
+        lycheeJuice1.setTotalVolume(DrinkSize.NUL);
+        assertEquals(0, lycheeJuice1.getTotalVolume());
+    }
+
+    @Test
     void testIsOutOfOrder() {
         FruitJuice lycheeJuice1 = new LycheeJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice lycheeJuice2 = new LycheeJuice(FruitJuice.DrinkSize.VENTI);
@@ -141,6 +149,14 @@ class LycheeJuiceTest {
         FruitJuice lycheeJuice3 = new LycheeJuice();
         lycheeJuice3.setPrice(DrinkSize.VENTI);
         assertEquals(VENTI_PRICE, lycheeJuice3.getPrice());
+    }
+
+    @Test
+    void testSetPriceForNulInput() {
+        LycheeJuice.resetTotalVolume();
+        FruitJuice lycheeJuice1 = new LycheeJuice();
+        lycheeJuice1.setPrice(DrinkSize.NUL);
+        assertEquals(0, lycheeJuice1.getPrice());
     }
 
     @Test

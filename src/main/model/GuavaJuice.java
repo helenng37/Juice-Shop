@@ -28,19 +28,12 @@ public class GuavaJuice extends FruitJuice {
         return totalVolumeOfGuava;
     }
 
+    //REQUIRES: delta >= 0
+    //MODIFIES: this
+    //EFFECTS: add delta to totalVolume
     @Override
-    public void setTotalVolume(DrinkSize size) {
-        switch (size) {
-            case TALL:
-                totalVolumeOfGuava += TALL_VOLUME;
-                break;
-            case GRANDE:
-                totalVolumeOfGuava += GRANDE_VOLUME;
-                break;
-            case VENTI:
-                totalVolumeOfGuava += VENTI_VOLUME;
-                break;
-        }
+    public void addToTotalVolume(int delta) {
+        totalVolumeOfGuava += delta;
     }
 
     /*

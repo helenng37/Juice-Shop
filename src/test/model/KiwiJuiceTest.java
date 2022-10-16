@@ -64,6 +64,14 @@ class KiwiJuiceTest {
     }
 
     @Test
+    void testSetTotalVolumeForDefaultInput() {
+        KiwiJuice.resetTotalVolume();
+        FruitJuice kiwiJuice1 = new KiwiJuice();
+        kiwiJuice1.setTotalVolume(DrinkSize.NUL);
+        assertEquals(0, kiwiJuice1.getTotalVolume());
+    }
+
+    @Test
     void testIsOutOfOrder() {
         FruitJuice kiwiJuice1 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice kiwiJuice2 = new KiwiJuice(FruitJuice.DrinkSize.VENTI);
@@ -141,6 +149,14 @@ class KiwiJuiceTest {
         FruitJuice kiwiJuice3 = new KiwiJuice();
         kiwiJuice3.setPrice(DrinkSize.VENTI);
         assertEquals(VENTI_PRICE, kiwiJuice3.getPrice());
+    }
+
+    @Test
+    void testSetPriceForNulInput() {
+        AppleJuice.resetTotalVolume();
+        FruitJuice kiwiJuice1 = new KiwiJuice();
+        kiwiJuice1.setPrice(DrinkSize.NUL);
+        assertEquals(0, kiwiJuice1.getPrice());
     }
 
     @Test

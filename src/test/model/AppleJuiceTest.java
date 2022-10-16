@@ -64,6 +64,14 @@ class AppleJuiceTest {
     }
 
     @Test
+    void testSetTotalVolumeForDefaultInput() {
+        AppleJuice.resetTotalVolume();
+        FruitJuice appleJuice1 = new AppleJuice();
+        appleJuice1.setTotalVolume(DrinkSize.NUL);
+        assertEquals(0, appleJuice1.getTotalVolume());
+    }
+
+    @Test
     void testIsOutOfOrder() {
         FruitJuice appleJuice1 = new AppleJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice appleJuice2 = new AppleJuice(FruitJuice.DrinkSize.VENTI);
@@ -147,6 +155,14 @@ class AppleJuiceTest {
         FruitJuice appleJuice3 = new AppleJuice();
         appleJuice3.setPrice(DrinkSize.VENTI);
         assertEquals(VENTI_PRICE, appleJuice3.getPrice());
+    }
+
+    @Test
+    void testSetPriceForNulInput() {
+        AppleJuice.resetTotalVolume();
+        FruitJuice appleJuice1 = new AppleJuice();
+        appleJuice1.setPrice(DrinkSize.NUL);
+        assertEquals(0, appleJuice1.getPrice());
     }
 
     @Test

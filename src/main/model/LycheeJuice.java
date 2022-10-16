@@ -28,19 +28,12 @@ public class LycheeJuice extends FruitJuice {
         return totalVolumeOfLychee;
     }
 
+    //REQUIRES: delta >= 0
+    //MODIFIES: this
+    //EFFECTS: add delta to totalVolume
     @Override
-    public void setTotalVolume(DrinkSize size) {
-        switch (size) {
-            case TALL:
-                totalVolumeOfLychee += TALL_VOLUME;
-                break;
-            case GRANDE:
-                totalVolumeOfLychee += GRANDE_VOLUME;
-                break;
-            case VENTI:
-                totalVolumeOfLychee += VENTI_VOLUME;
-                break;
-        }
+    public void addToTotalVolume(int delta) {
+        totalVolumeOfLychee += delta;
     }
 
     /*

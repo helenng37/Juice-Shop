@@ -28,19 +28,12 @@ public class AppleJuice extends FruitJuice {
         return totalVolumeOfApple;
     }
 
+    //REQUIRES: delta >= 0
+    //MODIFIES: this
+    //EFFECTS: add delta to totalVolume
     @Override
-    public void setTotalVolume(DrinkSize size) {
-        switch (size) {
-            case TALL:
-                totalVolumeOfApple += TALL_VOLUME;
-                break;
-            case GRANDE:
-                totalVolumeOfApple += GRANDE_VOLUME;
-                break;
-            case VENTI:
-                totalVolumeOfApple += VENTI_VOLUME;
-                break;
-        }
+    public void addToTotalVolume(int delta) {
+        totalVolumeOfApple += delta;
     }
 
     /*

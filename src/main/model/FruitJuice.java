@@ -1,6 +1,6 @@
 package model;
 
-import static model.FruitJuice.DrinkSize.NUL;
+import static model.FruitJuice.DrinkSize.*;
 
 //Represents a drink having drink size, fruit type, price (in dolars)
 public abstract class FruitJuice {
@@ -59,16 +59,14 @@ public abstract class FruitJuice {
     }
 
     public void setPrice(DrinkSize size) {
-        switch (size) {
-            case TALL:
-                this.price = TALL_PRICE;
-                break;
-            case GRANDE:
-                this.price = GRANDE_PRICE;
-                break;
-            case VENTI:
-                this.price = VENTI_PRICE;
-                break;
+        if (size.equals(TALL)) {
+            this.price = TALL_PRICE;
+        } else if (size.equals(GRANDE)) {
+            this.price = GRANDE_PRICE;
+        } else if (size.equals(VENTI)) {
+            this.price = VENTI_PRICE;
+        } else {
+            this.price = 0;
         }
     }
 
@@ -105,7 +103,22 @@ public abstract class FruitJuice {
     public abstract int getTotalVolume();
 
     //abstract class, which is implemented in subclasses
-    public abstract void setTotalVolume(DrinkSize size);
+    public void setTotalVolume(DrinkSize size) {
+        switch (size) {
+            case TALL:
+                addToTotalVolume(TALL_VOLUME);
+                break;
+            case GRANDE:
+                addToTotalVolume(GRANDE_VOLUME);
+                break;
+            case VENTI:
+                addToTotalVolume(VENTI_VOLUME);
+                break;
+            default: addToTotalVolume(0);
+        }
+    }
+
+    public abstract void addToTotalVolume(int delta);
 
     //abstract class, which is implemented in subclasses
     public abstract void subtractTotalVolume(int volume);

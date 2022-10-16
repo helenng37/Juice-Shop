@@ -64,6 +64,13 @@ class GuavaJuiceTest {
         assertEquals(VENTI_VOLUME, guavaJuice3.getTotalVolume());
     }
 
+    @Test
+    void testSetTotalVolumeForDefaultInput() {
+        GuavaJuice.resetTotalVolume();
+        FruitJuice guavaJuice1 = new GuavaJuice();
+        guavaJuice1.setTotalVolume(DrinkSize.NUL);
+        assertEquals(0, guavaJuice1.getTotalVolume());
+    }
 
     @Test
     void testIsOutOfOrder() {
@@ -143,6 +150,14 @@ class GuavaJuiceTest {
         FruitJuice guavaJuice3 = new GuavaJuice();
         guavaJuice3.setPrice(DrinkSize.VENTI);
         assertEquals(VENTI_PRICE, guavaJuice3.getPrice());
+    }
+
+    @Test
+    void testSetPriceForNulInput() {
+        AppleJuice.resetTotalVolume();
+        FruitJuice guavaJuice1 = new GuavaJuice();
+        guavaJuice1.setPrice(DrinkSize.NUL);
+        assertEquals(0, guavaJuice1.getPrice());
     }
 
     @Test

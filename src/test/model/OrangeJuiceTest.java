@@ -64,6 +64,14 @@ class OrangeJuiceTest {
     }
 
     @Test
+    void testSetTotalVolumeForDefaultInput() {
+        OrangeJuice.resetTotalVolume();
+        FruitJuice orangeJuice1 = new OrangeJuice();
+        orangeJuice1.setTotalVolume(DrinkSize.NUL);
+        assertEquals(0, orangeJuice1.getTotalVolume());
+    }
+
+    @Test
     void testIsOutOfOrder() {
         FruitJuice orangeJuice1 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
         FruitJuice orangeJuice2 = new OrangeJuice(FruitJuice.DrinkSize.VENTI);
@@ -141,6 +149,14 @@ class OrangeJuiceTest {
         FruitJuice orangeJuice3 = new OrangeJuice();
         orangeJuice3.setPrice(DrinkSize.VENTI);
         assertEquals(VENTI_PRICE, orangeJuice3.getPrice());
+    }
+
+    @Test
+    void testSetPriceForNulInput() {
+        OrangeJuice.resetTotalVolume();
+        FruitJuice orangeJuice1 = new OrangeJuice();
+        orangeJuice1.setPrice(DrinkSize.NUL);
+        assertEquals(0, orangeJuice1.getPrice());
     }
 
     @Test

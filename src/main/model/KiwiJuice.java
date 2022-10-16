@@ -28,19 +28,12 @@ public class KiwiJuice extends FruitJuice {
         return totalVolumeOfKiwi;
     }
 
+    //REQUIRES: delta >= 0
+    //MODIFIES: this
+    //EFFECTS: add delta to totalVolume
     @Override
-    public void setTotalVolume(DrinkSize size) {
-        switch (size) {
-            case TALL:
-                totalVolumeOfKiwi += TALL_VOLUME;
-                break;
-            case GRANDE:
-                totalVolumeOfKiwi += GRANDE_VOLUME;
-                break;
-            case VENTI:
-                totalVolumeOfKiwi += VENTI_VOLUME;
-                break;
-        }
+    public void addToTotalVolume(int delta) {
+        totalVolumeOfKiwi += delta;
     }
 
     /*
