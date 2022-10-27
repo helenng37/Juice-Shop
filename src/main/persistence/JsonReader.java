@@ -1,6 +1,7 @@
 package persistence;
 
 import model.*;
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -18,6 +19,8 @@ public class JsonReader {
         this.source = source;
     }
 
+    // Method was taken from JsonReader in:
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
     // EFFECTS: reads order from file and returns it;
     // throws IOException if an error occurs reading data from file
     public Order read() throws IOException {
@@ -26,6 +29,8 @@ public class JsonReader {
         return parseOrder(jsonObject);
     }
 
+    // Method was taken from JsonReader in:
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
     // EFFECTS: reads source file as string and returns it
     private String readFile(String source) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
@@ -43,8 +48,10 @@ public class JsonReader {
         Order o = new Order(name);
         List<FruitJuice> listOfJuice = new ArrayList<>();
         for (Object value : order.getJSONArray("listOfJuice")) {
-            JSONObject juice = (JSONObject) value;
-            listOfJuice.add(parseFruitJuice(juice));
+            FruitJuice juice = parseFruitJuice((JSONObject) value);
+            if (juice != null)  {
+                listOfJuice.add(juice);
+            }
         }
         o.setListOfJuice(listOfJuice);
         return o;
@@ -52,15 +59,20 @@ public class JsonReader {
 
     // EFFECTS: parses fruitJuice from JSON object and returns it
     private FruitJuice parseFruitJuice(JSONObject fruitJuice) {
-        FruitJuice juice = getFruitJuiceFromName(fruitJuice.getString("name"));
-        if (juice != null) {
-            FruitJuice.DrinkSize size = getDrinkSizeFromName(fruitJuice.getString("size"));
-            if (size != null) {
-                juice.setSize(size);
-                juice.setPrice(size);
+        try {
+            FruitJuice juice = getFruitJuiceFromName(fruitJuice.getString("name"));
+            if (juice != null) {
+                FruitJuice.DrinkSize size = getDrinkSizeFromName(fruitJuice.getString("size"));
+                if (size != null) {
+                    juice.setSize(size);
+                    juice.setPrice(size);
+                    return juice;
+                }
             }
+        } catch (JSONException ignore) {
+            return null;
         }
-        return juice;
+        return null;
     }
 
     private FruitJuice getFruitJuiceFromName(String name) {

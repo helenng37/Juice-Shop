@@ -42,19 +42,19 @@ public class JsonWriterTest extends JsonTest{
     }
 
     @Test
-    void testWriterGeneralWorkroom() {
+    void testWriterGeneralOrder() {
         try {
             Order order = new Order("My order");
             order.addDrink(new AppleJuice(FruitJuice.DrinkSize.VENTI));
             order.addDrink(new OrangeJuice(FruitJuice.DrinkSize.GRANDE));
             order.addDrink(new GuavaJuice(FruitJuice.DrinkSize.TALL));
             order.addDrink(new KiwiJuice(FruitJuice.DrinkSize.VENTI));
-            JsonWriter writer = new JsonWriter("./data/testWriterGeneralWorkroom.json");
+            JsonWriter writer = new JsonWriter("./data/testWriterGeneralOrder.json");
             writer.open();
             writer.write(order);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterGeneralWorkroom.json");
+            JsonReader reader = new JsonReader("./data/testWriterGeneralOrder.json");
             order = reader.read();
             assertEquals("My order", order.getCustomerName());
             List<FruitJuice> drinks = order.getListOfJuice();

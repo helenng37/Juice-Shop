@@ -1,0 +1,9 @@
+{
+    "name": "My order",
+    "listOfJuice": [
+      {
+        "size": "SMALL",
+        "name": "APPLE"
+      }
+    ]
+}
