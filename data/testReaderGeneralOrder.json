@@ -1,0 +1,19 @@
+{"listOfJuice": [
+  {
+    "size": "GRANDE",
+    "name": "APPLE"
+  },
+  {
+    "size": "TALL",
+    "name": "KIWI"
+  },
+  {
+    "size": "VENTI",
+    "name": "ORANGE"
+  },
+  {
+    "size": "TALL",
+    "name": "LYCHEE"
+  }],
+  "name": "My order"
+}

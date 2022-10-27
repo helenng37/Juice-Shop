@@ -1,9 +1,12 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import static model.FruitJuice.DrinkSize.*;
 
 //Represents a drink having drink size, fruit type, price (in dolars)
-public abstract class FruitJuice {
+public abstract class FruitJuice implements Writable {
     public static enum DrinkSize { TALL, GRANDE, VENTI, NUL }
 
     public static enum FruitType { APPLE, ORANGE, GUAVA, LYCHEE, KIWI }
@@ -132,4 +135,12 @@ public abstract class FruitJuice {
      * EFFECTS: return an integer that is the remaining volume of the juice after every order
      */
     public abstract int remainingVolume();
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", getType().name());
+        jsonObject.put("size", getSize().name());
+        return jsonObject;
+    }
 }

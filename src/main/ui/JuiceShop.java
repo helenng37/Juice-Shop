@@ -2,21 +2,30 @@ package ui;
 
 import model.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 //Simulate a juice shop
 public class JuiceShop {
+    private static final String JSON_STORE = "./data/order.json";
     private Order order;
     private FruitJuice juice;
-    private int numDinks;
+    private int numDrinks;
+    private JsonReader jsonReader;
+    private JsonWriter jsonWriter;
 
     /*
      * EFFECTS: numDrinks is set to 0, and order is set to new Order
      * runs the juice shop application
      */
     public JuiceShop() {
-        numDinks = 0;
-        order = new Order();
+        numDrinks = 0;
+        order = new Order("");
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         runApp();
     }
 
@@ -25,22 +34,29 @@ public class JuiceShop {
      * EFFECTS: processes user inputs
      */
     public void runApp() {
-        System.out.println("Hello, how many drinks would you like to order? ");
-        Scanner scanner1 = new Scanner(System.in);
-        int num = scanner1.nextInt();
-        numDinks += num;
-        for (int i = 0; i < num; i++) {
-            initFruitType();
-            initDrinkSize();
+        while (true) {
+            System.out.println("\nHello, please select from the following options:");
+            System.out.println("\nPlease enter your name: ");
+            order.setCustomerName(new Scanner(System.in).nextLine());
+            System.out.println("\to -> Order a drink");
+            System.out.println("\tl -> Load existing order from file");
+            System.out.println("\ts -> Save order to file");
+            System.out.println("\tq -> Print bill and quit");
+            String cmd = new Scanner(System.in).next().trim().toLowerCase();
+            if (cmd.equals("o")) {
+                initFruitType();
+                initDrinkSize();
+            } else if (cmd.equals("l")) {
+                loadOrder();
+            } else if (cmd.equals("s")) {
+                saveOrder();
+            } else if (cmd.equals("q")) {
+                printTotalBill();
+                break;
+            } else {
+                System.out.println("Invalid option...");
+            }
         }
-        System.out.println("Do you want to order more drinks? (y/n)");
-        Scanner scanner2 = new Scanner(System.in);
-        String keepGoing = scanner2.nextLine();
-        if (keepGoing.toLowerCase().equals("y")) {
-            runApp();
-        }
-        printTotalBill();
-        System.out.println("\nThank you. Goodbye!");
     }
 
     /*
@@ -136,9 +152,9 @@ public class JuiceShop {
 
     // EFFECTS: prints the total bill
     public void printTotalBill() {
-        numDinks = order.getListOfJuice().size();
-        System.out.println("Your total drinks are: " + numDinks);
-        for (int i = 0; i < numDinks; i++) {
+        numDrinks = order.getListOfJuice().size();
+        System.out.println("Your total drinks are: " + numDrinks);
+        for (int i = 0; i < numDrinks; i++) {
             System.out.println("Drink " + (i + 1) + ": Fruit: " + order.getListOfJuice().get(i).getType()
                     + " - Size: " + order.getListOfJuice().get(i).getSize());
         }
@@ -211,5 +227,28 @@ public class JuiceShop {
      */
     public void removeJuice() {
         order.getListOfJuice().remove(juice);
+    }
+
+    // EFFECTS: saves the order to file
+    private void saveOrder() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(order);
+            jsonWriter.close();
+            System.out.println("Saved this order to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads order from file
+    private void loadOrder() {
+        try {
+            order = jsonReader.read();
+            System.out.println("Loaded order from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 }

@@ -33,3 +33,5 @@ can make per day.
 - As a customer, I want to be able to view the total bill.
 - As a customer, I want to be able to remove a juice when it is out of order.
 - As a customer, I want to be able to change to another juice when the one I ordered is out of order
+- As a user, I want to be able to save my order to file
+- As a user, I want to be able to be able to load my order from file 

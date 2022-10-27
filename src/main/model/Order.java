@@ -1,23 +1,33 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static model.FruitJuice.MAX_VOLUME;
-import static model.FruitJuice.TALL_VOLUME;
-
 //Represents an order having a list of juice and the total bill
-public class Order {
+public class Order implements Writable {
     private List<FruitJuice> listOfJuice;
     private double totalBill;
+    private String customerName;
 
     /*
      * EFFECTS: listOfJuice is set to a new ArrayList of FruitJuice
      * and totalBill is set to 0
      */
-    public Order() {
+    public Order(String name) {
         this.listOfJuice = new ArrayList<FruitJuice>();
         this.totalBill = 0;
+        setCustomerName(name);
+    }
+
+    public String getCustomerName() {
+        return this.customerName;
+    }
+
+    public void setCustomerName(String name) {
+        this.customerName = name;
     }
 
     public List<FruitJuice> getListOfJuice() {
@@ -49,6 +59,19 @@ public class Order {
             listOfJuice.add(juice);
             juice.setTotalVolume(juice.getSize());
         }
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONArray listOfJuice = new JSONArray();
+        for (FruitJuice f: this.listOfJuice) {
+            listOfJuice.put(f.toJson());
+        }
+
+        JSONObject json = new JSONObject();
+        json.put("name", customerName);
+        json.put("listOfJuice", listOfJuice);
+        return json;
     }
 }
 

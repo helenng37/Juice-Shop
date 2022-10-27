@@ -18,13 +18,15 @@ public class OrderTest {
         GuavaJuice.resetTotalVolume();
         KiwiJuice.resetTotalVolume();
         LycheeJuice.resetTotalVolume();
-        order = new Order();
+        order = new Order("");
     }
 
     @Test
     void testConstructor() {
         assertEquals(0, order.getTotalBill());
         assertEquals(0, order.getListOfJuice().size());
+        order.setCustomerName("Helen");
+        assertEquals("Helen", order.getCustomerName());
     }
 
     @Test
