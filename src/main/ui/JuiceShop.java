@@ -34,10 +34,10 @@ public class JuiceShop {
      * EFFECTS: processes user inputs
      */
     public void runApp() {
+        System.out.println("\nPlease enter your name: ");
+        order.setCustomerName(new Scanner(System.in).nextLine());
         while (true) {
             System.out.println("\nHello, please select from the following options:");
-            System.out.println("\nPlease enter your name: ");
-            order.setCustomerName(new Scanner(System.in).nextLine());
             System.out.println("\to -> Order a drink");
             System.out.println("\tl -> Load existing order from file");
             System.out.println("\ts -> Save order to file");

@@ -1,0 +1,33 @@
+{
+    "name": "",
+    "listOfJuice": [
+        {
+            "size": "TALL",
+            "name": "GUAVA"
+        },
+        {
+            "size": "TALL",
+            "name": "ORANGE"
+        },
+        {
+            "size": "VENTI",
+            "name": "LYCHEE"
+        },
+        {
+            "size": "GRANDE",
+            "name": "KIWI"
+        },
+        {
+            "size": "GRANDE",
+            "name": "GUAVA"
+        },
+        {
+            "size": "TALL",
+            "name": "ORANGE"
+        },
+        {
+            "size": "GRANDE",
+            "name": "APPLE"
+        }
+    ]
+}

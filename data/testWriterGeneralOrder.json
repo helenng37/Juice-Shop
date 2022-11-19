@@ -1,0 +1,21 @@
+{
+    "name": "My order",
+    "listOfJuice": [
+        {
+            "size": "VENTI",
+            "name": "APPLE"
+        },
+        {
+            "size": "GRANDE",
+            "name": "ORANGE"
+        },
+        {
+            "size": "TALL",
+            "name": "GUAVA"
+        },
+        {
+            "size": "VENTI",
+            "name": "KIWI"
+        }
+    ]
+}
