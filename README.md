@@ -40,10 +40,17 @@ can make per day.
 
 - You can generate the first required event related to adding a drink to an order 
   by clicking the rectangle button name "Add drink" then multiple selections of fruit type and size will appear
-  Then, if you want to choose any type or size, you just need to click to the check box
+  Then, if you want to choose any type or size, you just need to click to the radio button.
 - You can generate the second required event related to adding another drink to the order by following the same
   direction as adding the first drink.
 - All pictures are stored in resource folder under src folder
 - You can submit an order by clicking the rectangle button name "Submit order", then a message with the total bill will pop up
 - You can save the state of my application by clicking the rectangle button name "Save order", and a message will pop up
 - You can reload the state of my application by cling the rectangle button name "Load order".
+
+# Phase 4: Task 3
+- I would not create so many juice subclasses that extend FruitJuice to reduce coupling.
+- Maybe, I will only create a class for drink type. A drink type is an instance of the class
+- There will be a drink order class to represent a drink type, size, and price
+- There will be an order class that consists of a list of drink orders
+- The list of drink types can be created in the UI, where each drink type is actually instantiated.
