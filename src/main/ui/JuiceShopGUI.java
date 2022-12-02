@@ -1,5 +1,7 @@
 package ui;
 
+import logging.Event;
+import logging.EventLog;
 import model.*;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -7,12 +9,11 @@ import persistence.JsonWriter;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class JuiceShopGUI extends JFrame implements ActionListener {
@@ -20,14 +21,18 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
         new JuiceShopGUI();
     }
 
-    public static final int WIDTH = 1000;
-    public static final int HEIGHT = 700;
+    public static final int PANEL_WIDTH = 1200;
+    public static final int PANEL_HEIGHT = 1000;
 
     private static final int LABEL_HEIGHT = 30;
     private static final int X_OFFSET_BASE = 10;
     private static final int Y_OFFSET_HEAD = 10;
     private static final int Y_OFFSET_BODY = 210;
     private static final int BUTTON_WIDTH = 150;
+    private static final String JSON_STORE = "./data/order.json";
+
+    private static final JsonWriter jsonWriter = new JsonWriter(JSON_STORE);
+    private static final JsonReader jsonReader = new JsonReader(JSON_STORE);
 
     private List<OneDrink> drinkList = new ArrayList<>();
     private Order order;
@@ -38,6 +43,16 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
         resetOrder();
         initializeHeader();
         initializeBody();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Iterator<Event> it = EventLog.getInstance().iterator();
+                while (it.hasNext()) {
+                    System.out.println(it.next());
+                }
+                super.windowClosing(e);
+            }
+        });
     }
 
 
@@ -103,7 +118,7 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
             for (FruitJuice j : order.getListOfJuice()) {
                 OneDrink d = getNextDrinkForm();
                 d.setSelected(j.getType(), j.getSize());
-                d.draw();
+                d.draw(drinkList.size() - 1);
                 sb.append(j.getType()).append(" - ")
                         .append(j.getSize()).append(" - $")
                         .append(j.getPrice()).append("\n");
@@ -165,7 +180,7 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
         new SaveOrder(this);
         new LoadOrder(this);
 
-        setSize(WIDTH, HEIGHT);
+        setSize(PANEL_WIDTH, PANEL_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         setVisible(true);
@@ -186,8 +201,7 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
      * EFFECTS: add one more drink selection to the drinkList and the display panel
      */
     private OneDrink getNextDrinkForm() {
-        OneDrink d = new OneDrink(this, X_OFFSET_BASE,
-                Y_OFFSET_BODY + LABEL_HEIGHT + (LABEL_HEIGHT * 2 * drinkList.size()));
+        OneDrink d = new OneDrink(this);
         drinkList.add(d);
         return d;
     }
@@ -199,9 +213,26 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        getNextDrinkForm().draw();
+        getNextDrinkForm().draw(drinkList.size() - 1);
         revalidate();
         repaint();
+    }
+
+    public void removeDrink(OneDrink drink) {
+        int drinkIndex = drinkList.indexOf(drink);
+        for (int i = drinkIndex; i < drinkList.size(); i++) {
+            OneDrink d = drinkList.get(i);
+            d.setSelected(d.getSelectedType(), d.getSelectedSize());
+            d.remove();
+            revalidate();
+            repaint();
+            if (i != drinkIndex) {
+                d.draw(i - 1);
+                revalidate();
+                repaint();
+            }
+        }
+        drinkList.remove(drink);
     }
 
     // Submit Order button
@@ -248,7 +279,13 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             juiceShopGUI.resetOrder();
-            saveOrder(juiceShopGUI.getOrder());
+            try {
+                jsonWriter.open();
+                jsonWriter.write(juiceShopGUI.getOrder());
+                jsonWriter.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("Unable to write to file: " + JSON_STORE);
+            }
             JOptionPane.showMessageDialog(juiceShopGUI, "Order Saved:\n" + juiceShopGUI.getOrderSummary());
         }
     }
@@ -275,22 +312,30 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
                 d.remove();
             }
             juiceShopGUI.drinkList = new ArrayList<>();
-            juiceShopGUI.setOrder(loadOrder());
+            try {
+                juiceShopGUI.setOrder(jsonReader.read());
+            } catch (IOException e) {
+                System.out.println("Unable to read from file: " + JSON_STORE);
+            }
         }
     }
 
     // One drink selection of fruit type and size
-    public static class OneDrink {
-        private static final int TYPE_WIDTH = 100;
-        private static final int SIZE_WIDTH = 100;
+    public static class OneDrink implements ActionListener {
+        private static final int TYPE_WIDTH = 90;
+        private static final int TYPE_WIDTH_TOTAL = FruitJuice.FruitType.values().length * TYPE_WIDTH;
+        private static final int SIZE_WIDTH = 90;
+        private static final int SIZE_WIDTH_TOTAL = (FruitJuice.DrinkSize.values().length - 1) * SIZE_WIDTH;
+        private static final int COLUMN_GAP = 20;
 
         private final JFrame jframe;
-        private final int xoffset;
-        private final int yoffset;
-        private final ButtonGroup bgTypes = new ButtonGroup();
-        private final ButtonGroup bgSizes = new ButtonGroup();
+        private int xoffset;
+        private int yoffset;
+        private ButtonGroup bgTypes = new ButtonGroup();
+        private ButtonGroup bgSizes = new ButtonGroup();
         private List<JLabel> labels = new ArrayList<>();
         private List<JRadioButton> buttons = new ArrayList<>();
+        private JButton removeButton;
 
         private final Map<FruitJuice.FruitType, JRadioButton> types = new HashMap<>();
         private final Map<FruitJuice.DrinkSize, JRadioButton> sizes = new HashMap<>();
@@ -298,10 +343,8 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
         private FruitJuice.FruitType selectedType;
         private FruitJuice.DrinkSize selectedSize;
 
-        private OneDrink(JFrame jframe, int xoffset, int yoffset) {
+        private OneDrink(JFrame jframe) {
             this.jframe = jframe;
-            this.xoffset = xoffset;
-            this.yoffset = yoffset;
         }
 
         /*
@@ -309,10 +352,17 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
          * MODIFIES: the panel
          * EFFECTS: draw another line of drink type and size selections
          */
-        private void draw() {
+        private void draw(int drinkNum) {
+            xoffset = X_OFFSET_BASE;
+            yoffset = Y_OFFSET_BODY + LABEL_HEIGHT + LABEL_HEIGHT * 2 * drinkNum;
             addLabels();
             addTypeRadioButtons();
             addSizeRadioButtons();
+            removeButton = new JButton("Remove");
+            removeButton.setBounds(xoffset + TYPE_WIDTH_TOTAL + COLUMN_GAP * 2 + SIZE_WIDTH_TOTAL,
+                    yoffset + LABEL_HEIGHT, BUTTON_WIDTH, LABEL_HEIGHT);
+            removeButton.addActionListener(this);
+            jframe.add(removeButton);
         }
 
         /*
@@ -332,13 +382,12 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
          */
         private void addLabels() {
             JLabel juiceChoice = new JLabel("Select Juice");
-            juiceChoice.setBounds(xoffset, yoffset, FruitJuice.FruitType.values().length * TYPE_WIDTH, LABEL_HEIGHT);
+            juiceChoice.setBounds(xoffset, yoffset, TYPE_WIDTH_TOTAL, LABEL_HEIGHT);
             jframe.add(juiceChoice);
             labels.add(juiceChoice);
 
             JLabel juiceSize = new JLabel("Select Size");
-            juiceSize.setBounds(xoffset * 3 + FruitJuice.FruitType.values().length * TYPE_WIDTH, yoffset,
-                    FruitJuice.FruitType.values().length * SIZE_WIDTH, LABEL_HEIGHT);
+            juiceSize.setBounds(xoffset + TYPE_WIDTH_TOTAL + COLUMN_GAP, yoffset, SIZE_WIDTH_TOTAL, LABEL_HEIGHT);
             jframe.add(juiceSize);
             labels.add(juiceSize);
         }
@@ -368,8 +417,8 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
             for (FruitJuice.DrinkSize s: FruitJuice.DrinkSize.values()) {
                 if (s != FruitJuice.DrinkSize.NUL) {
                     JRadioButton button = new JRadioButton(s.name(), selectedSize != null && selectedSize.equals(s));
-                    button.setBounds(xoffset * 3 + FruitJuice.FruitType.values().length * TYPE_WIDTH
-                                    + SIZE_WIDTH * s.ordinal(), yoffset + LABEL_HEIGHT, SIZE_WIDTH, LABEL_HEIGHT);
+                    button.setBounds(xoffset + TYPE_WIDTH_TOTAL + COLUMN_GAP + SIZE_WIDTH * s.ordinal(),
+                            yoffset + LABEL_HEIGHT, SIZE_WIDTH, LABEL_HEIGHT);
                     jframe.add(button);
                     bgSizes.add(button);
                     sizes.put(s, button);
@@ -410,6 +459,16 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
             for (JRadioButton b: buttons) {
                 jframe.remove(b);
             }
+            labels = new ArrayList<>();
+            buttons = new ArrayList<>();
+            jframe.remove(removeButton);
+            bgTypes = new ButtonGroup();
+            bgSizes = new ButtonGroup();
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            ((JuiceShopGUI) jframe).removeDrink(this);
         }
     }
 
@@ -422,32 +481,6 @@ public class JuiceShopGUI extends JFrame implements ActionListener {
             case LYCHEE: return new LycheeJuice();
             case ORANGE: return new OrangeJuice();
             default: return null;
-        }
-    }
-
-    private static final String JSON_STORE = "./data/order.json";
-
-    private static final JsonWriter jsonWriter = new JsonWriter(JSON_STORE);
-    private static final JsonReader jsonReader = new JsonReader(JSON_STORE);
-
-    //EFFECTS: save the order to the file
-    private static void saveOrder(Order order) {
-        try {
-            jsonWriter.open();
-            jsonWriter.write(order);
-            jsonWriter.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_STORE);
-        }
-    }
-
-    //EFFECTS: load the o
-    private static Order loadOrder() {
-        try {
-            return jsonReader.read();
-        } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
-            return null;
         }
     }
 }

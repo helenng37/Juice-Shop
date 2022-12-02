@@ -1,5 +1,7 @@
 package model;
 
+import logging.Event;
+import logging.EventLog;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
@@ -20,6 +22,7 @@ public class Order implements Writable {
         this.listOfJuice = new ArrayList<FruitJuice>();
         this.totalBill = 0;
         setCustomerName(name);
+        EventLog.getInstance().logEvent(new Event("Create new fruit juice order"));
     }
 
     public String getCustomerName() {
@@ -46,6 +49,7 @@ public class Order implements Writable {
         for (FruitJuice f: listOfJuice) {
             totalBill += f.getPrice();
         }
+        EventLog.getInstance().logEvent(new Event("Total bill set: $" + totalBill));
     }
 
     /*
@@ -58,6 +62,10 @@ public class Order implements Writable {
         if (tmpVolume <= juice.remainingVolume()) {
             listOfJuice.add(juice);
             juice.setTotalVolume(juice.getSize());
+            EventLog.getInstance().logEvent(new Event("Add to order: " + juice.getType() + " - " + juice.getSize()));
+        } else {
+            EventLog.getInstance().logEvent(new Event("Add to order failed: "
+                    + juice.getType() + " - " + juice.getSize()));
         }
     }
 
