@@ -2,23 +2,23 @@
     "name": "",
     "listOfJuice": [
         {
+            "size": "VENTI",
+            "name": "ORANGE"
+        },
+        {
             "size": "GRANDE",
+            "name": "GUAVA"
+        },
+        {
+            "size": "TALL",
             "name": "APPLE"
         },
         {
             "size": "GRANDE",
-            "name": "ORANGE"
+            "name": "LYCHEE"
         },
         {
             "size": "VENTI",
-            "name": "GUAVA"
-        },
-        {
-            "size": "GRANDE",
-            "name": "KIWI"
-        },
-        {
-            "size": "TALL",
             "name": "KIWI"
         }
     ]

@@ -48,7 +48,25 @@ can make per day.
 - You can save the state of my application by clicking the rectangle button name "Save order", and a message will pop up
 - You can reload the state of my application by cling the rectangle button name "Load order".
 
+# Phase 4: Task 2
+
+- Fri Dec 02 20:23:26 PST 2022
+- Create new fruit juice order
+- Fri Dec 02 20:23:42 PST 2022
+- Create new fruit juice order
+- Fri Dec 02 20:23:42 PST 2022
+- Add to order: GUAVA - GRANDE
+- Fri Dec 02 20:23:42 PST 2022
+- Add to order: ORANGE - TALL
+- Fri Dec 02 20:23:42 PST 2022
+- Add to order: APPLE - VENTI
+- Fri Dec 02 20:23:42 PST 2022
+- Add to order: LYCHEE - GRANDE
+- Fri Dec 02 20:23:42 PST 2022
+- Total bill set: $17.75
+
 # Phase 4: Task 3
+
 - I would not create so many juice subclasses that extend FruitJuice to reduce coupling.
 - Maybe, I will only create a class for drink type. A drink type is an instance of the class
 - There will be a drink order class to represent a drink type, size, and price
